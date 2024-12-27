@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffe4e1; /* Light pink */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #ffb6c1; /* Pink border */
+            border-radius: 15px;
+            background-color: #fff0f5; /* Lavender blush */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 28px;
+            color: #ff69b4; /* Hot pink */
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #ff6eb4; /* Bright pink */
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        button:hover {
+            background-color: #ff1493; /* Deep pink */
+            transform: scale(1.05);
+        }
+        .question {
+            font-size: 20px;
+            margin: 20px 0;
+            color: #db7093; /* Pale violet red */
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 10px 0;
+        }
+        .score {
+            font-size: 22px;
+            margin: 20px 0;
+            color: #c71585; /* Medium violet red */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Game</h1>
+        <div id="quiz">
+            <p id="question" class="question"></p>
+            <ul id="options" class="options"></ul>
+            <button id="nextButton" onclick="nextQuestion()" style="display: none;">Next</button>
+            <p id="score" class="score" style="display: none;"></p>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["Berlin", "Madrid", "Paris", "Rome"],
+                answer: 2
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Earth", "Mars", "Jupiter", "Venus"],
+                answer: 1
+            },
+            {
+                question: "What is the largest ocean on Earth?",
+                options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                answer: 3
+            },
+            {
+                question: "Who wrote 'Romeo and Juliet'?",
+                options: ["William Shakespeare", "Mark Twain", "Charles Dickens", "J.K. Rowling"],
+                answer: 0
+            },
+            {
+                question: "What is the square root of 64?",
+                options: ["6", "7", "8", "9"],
+                answer: 2
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const nextButton = document.getElementById('nextButton');
+
+            // Clear previous options
+            optionsElement.innerHTML = '';
+
+            // Display current question
+            const currentQuestion = questions[currentQuestionIndex];
+            questionElement.textContent = currentQuestion.question;
+
+            // Display options
+            currentQuestion.options.forEach((option, index) => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index);
+                li.appendChild(button);
+                optionsElement.appendChild(li);
+            });
+
+            // Hide the next button initially
+            nextButton.style.display = 'none';
+        }
+
+        function checkAnswer(selectedIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+            const nextButton = document.getElementById('nextButton');
+
+            if (selectedIndex === currentQuestion.answer) {
+                score++;
+                alert('Correct!');
+            } else {
+                alert(`Wrong! The correct answer was: ${currentQuestion.options[currentQuestion.answer]}`);
+            }
+
+            // Show next button
+            nextButton.style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        function showScore() {
+            const quizElement = document.getElementById('quiz');
+            const scoreElement = document.getElementById('score');
+
+            quizElement.style.display = 'none';
+            scoreElement.style.display = 'block';
+            scoreElement.textContent = `You scored ${score} out of ${questions.length}!`;
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>
