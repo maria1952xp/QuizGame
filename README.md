@@ -11,7 +11,7 @@ A fun and interactive quiz game with a cute pink theme! Test your knowledge and 
 - Open `index.html` in your browser.
 - Answer the questions to score points.
 
-## Folder Structure
+
 
 ## Future Features
 - Timer for each question.
